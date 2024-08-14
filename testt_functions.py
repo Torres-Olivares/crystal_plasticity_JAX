@@ -100,3 +100,17 @@ out_file = "CP_orientations.xdmf"
 with io.XDMFFile(domain.comm, out_file, "w") as xdmf:
     xdmf.write_mesh(domain)
 
+
+
+
+
+
+# import meshio
+
+# # Read the .msh file
+# mesh = meshio.read("n10-id1.msh")
+
+
+
+# # Write the mesh to a VTK file
+# meshio.write("your_file.vtk", mesh)
