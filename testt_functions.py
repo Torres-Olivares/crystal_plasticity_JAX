@@ -1,7 +1,6 @@
 from mpi4py import MPI
 import dolfinx
 from dolfinx import mesh, fem, io
-import ufl
 import basix
 import numpy as np
 
@@ -25,7 +24,6 @@ DG0 = fem.functionspace(domain, ("DG", 0))
 tag_function = fem.Function(DG0)
 tag_function.x.array[:] = create_element_to_tag_map(domain, cell_tags)
 
-
 # Define quadrature function space
 degree = 2  # or whatever degree you're using
 Qe = basix.ufl.quadrature_element(
@@ -36,30 +34,18 @@ Q = fem.functionspace(domain, Qe)
 # Create a function on the quadrature space
 quad_tags = fem.Function(Q)
 
-# Get the number of quadrature points per cell
-num_cells = domain.topology.index_map(domain.topology.dim).size_local
-dofs_per_cell = Q.dofmap.dof_layout.num_dofs
+# Get the dofmap for the quadrature space
+dofmap = Q.dofmap
 
-# Manually assign tag values to quadrature points
-quad_tags_array = np.zeros(num_cells * dofs_per_cell)
-for cell in range(num_cells):
+# Iterate over cells, assign cell numbers to dofs, and assign tags to quadrature points
+for cell in range(domain.topology.index_map(domain.topology.dim).size_local):
+    dofs = dofmap.cell_dofs(cell)
     cell_tag = tag_function.x.array[cell]
-    start = cell * dofs_per_cell
-    end = (cell + 1) * dofs_per_cell
-    quad_tags_array[start:end] = cell_tag
-
-# Project the cell-wise constant onto the quadrature space
-quad_tags.x.array[:] = quad_tags_array
+    for dof in dofs:
+        quad_tags.x.array[dof] = cell_tag
 
 
-# Write results to XDMF
-out_file = "CP_orientations.xdmf"
-with io.XDMFFile(domain.comm, out_file, "w") as xdmf:
-    xdmf.write_mesh(domain)
-    xdmf.write_function(tag_function)
-
-print("Quadrature tags shape:", quad_tags.x.array.shape)
-print("Quadrature tags:", quad_tags.x.array)
+print(quad_tags.x.array)
 
 
 
