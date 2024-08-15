@@ -111,11 +111,43 @@ def calculate_schmidt_tensor(initial_angles):
     new_nl0 = nl_0 @ matrix.T
     return jnp.einsum('bi,bj->bij', new_sl0, new_nl0)
 
-orientations = [
-    [0, 0, 0],
-    [45, 0, 0]
-]
+def extract_euler_angles_zxz(file_path):
+    rodrigues_vectors = []
+    reading_orientations = False
+    with open(file_path, 'r') as file:
+        for line in file:
+            if line.strip() == '$ElsetOrientations':
+                reading_orientations = True
+                continue
+            elif line.strip() == '$EndElsetOrientations':
+                break
+            
+            if reading_orientations:
+                parts = line.split()
+                if len(parts) == 4 and parts[0].isdigit():
+                    vector = [float(x) for x in parts[1:]]
+                    rodrigues_vectors.append(vector)
+    
+    # Convert Rodrigues vectors to Euler angles (ZXZ convention)
+    orientations = []
+    for vec in rodrigues_vectors:
+        # Convert Rodrigues vector to rotation matrix
+        r = R.from_rotvec(vec)
+        # Get Euler angles in ZXZ convention (in radians)
+        euler = r.as_euler('zxz', degrees=True)
+        orientations.append(euler.tolist())
+    
+    return orientations
 
+# Example usage:
+file_path = "neper_files/n2-id1.msh"
+orientations = extract_euler_angles_zxz(file_path)
+
+print("orientations =", orientations)
+
+
+
+print(orientations)
 
 schmidt_tensors = jnp.array([calculate_schmidt_tensor(ori) for ori in orientations])
 
