@@ -3,6 +3,10 @@ import dolfinx
 from dolfinx import mesh, fem, io
 import basix
 import numpy as np
+import jax
+import jax.numpy as jnp
+from scipy.spatial.transform import Rotation as R
+from jax.scipy.linalg import eigh
 
 # Read the mesh
 domain, cell_tags, facet_tags = dolfinx.io.gmshio.read_from_msh("neper_files/n2-id1.msh", MPI.COMM_WORLD)
@@ -57,19 +61,63 @@ with io.XDMFFile(domain.comm, out_file, "w") as xdmf:
 
 
 
+def slip_systems_fcc():
+    '''
+    DEFINE THE VECTORS S AND N FOR THE SLIP SYSTEMS
+    fcc crystal case (12 slip systems)
+    '''
+    # Slip systems for a fcc crystal
+    sl_0 = jnp.array([[ 0.0, 1.0,-1.0],
+                    [-1.0, 0.0, 1.0],
+                    [ 1.0,-1.0, 0.0],
+                    [ 0.0,-1.0,-1.0],
+                    [ 1.0, 0.0, 1.0],
+                    [-1.0, 1.0, 0.0],
+                    [ 0.0,-1.0, 1.0],
+                    [-1.0, 0.0,-1.0],
+                    [ 1.0, 1.0, 0.0],
+                    [ 0.0, 1.0, 1.0],
+                    [ 1.0, 0.0,-1.0],
+                    [-1.0,-1.0, 0.0]])
 
-# def calculate_schmidt_tensor(orientation):
-#     # Implement your Schmidt tensor calculation here
-#     # This is just a placeholder function
-#     return np.random.rand(12, 3)  # Replace with actual calculation
+    nl_0 = jnp.array([[ 1.0, 1.0, 1.0],
+                    [ 1.0, 1.0, 1.0],
+                    [ 1.0, 1.0, 1.0],
+                    [-1.0,-1.0, 1.0],
+                    [-1.0,-1.0, 1.0],
+                    [-1.0,-1.0, 1.0],
+                    [ 1.0,-1.0,-1.0],
+                    [ 1.0,-1.0,-1.0],
+                    [ 1.0,-1.0,-1.0],
+                    [-1.0, 1.0,-1.0],
+                    [-1.0, 1.0,-1.0],
+                    [-1.0, 1.0,-1.0]])
 
-# orientations = [
-#     [0, 0, 0],
-#     [45, 0, 0]
-#     # Add more orientations as needed
-# ]
+    # Normalize each slip system
+    sl_0 = sl_0 / jnp.linalg.norm(sl_0, axis=1)[:, jnp.newaxis]
+    nl_0 = nl_0 / jnp.linalg.norm(nl_0, axis=1)[:, jnp.newaxis]
 
-# schmidt_tensors = np.array([calculate_schmidt_tensor(ori) for ori in orientations])
+    return sl_0, nl_0
+
+# Initial s and n vectors
+sl_0, nl_0 = slip_systems_fcc()
 
 
-# print(schmidt_tensors)
+def calculate_schmidt_tensor(initial_angles):
+    # Implement your Schmidt tensor calculation here
+    rot_euler = R.from_euler('ZXZ', initial_angles, degrees=True)
+    matrix = rot_euler.as_matrix()
+    new_sl0 = sl_0 @ matrix.T
+    new_nl0 = nl_0 @ matrix.T
+    return jnp.einsum('bi,bj->bij', new_sl0, new_nl0)
+
+orientations = [
+    [0, 0, 0],
+    [45, 0, 0]
+]
+
+
+schmidt_tensors = jnp.array([calculate_schmidt_tensor(ori) for ori in orientations])
+
+
+print(schmidt_tensors[0])

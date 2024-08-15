@@ -214,16 +214,93 @@ def fourth_order_elasticity(E, nu):
 
 
 # -----------------------------------------------------------------------------------
+# FENICSX RELATED FUNCTIONS
+# -----------------------------------------------------------------------------------
+# Create anumpy array containing the orientations per element
+def create_element_to_tag_map(domain, cell_tags):
+    element_to_tag = np.zeros(domain.topology.index_map(domain.topology.dim).size_local, dtype=np.int32)
+    for tag in np.unique(cell_tags.values):
+        cells = cell_tags.find(tag)
+        element_to_tag[cells] = tag
+    return element_to_tag
+
+
+def slip_systems_fcc():
+    '''
+    DEFINE THE VECTORS S AND N FOR THE SLIP SYSTEMS
+    fcc crystal case (12 slip systems)
+    '''
+    # Slip systems for a fcc crystal
+    sl_0 = jnp.array([[ 0.0, 1.0,-1.0],
+                    [-1.0, 0.0, 1.0],
+                    [ 1.0,-1.0, 0.0],
+                    [ 0.0,-1.0,-1.0],
+                    [ 1.0, 0.0, 1.0],
+                    [-1.0, 1.0, 0.0],
+                    [ 0.0,-1.0, 1.0],
+                    [-1.0, 0.0,-1.0],
+                    [ 1.0, 1.0, 0.0],
+                    [ 0.0, 1.0, 1.0],
+                    [ 1.0, 0.0,-1.0],
+                    [-1.0,-1.0, 0.0]])
+
+    nl_0 = jnp.array([[ 1.0, 1.0, 1.0],
+                    [ 1.0, 1.0, 1.0],
+                    [ 1.0, 1.0, 1.0],
+                    [-1.0,-1.0, 1.0],
+                    [-1.0,-1.0, 1.0],
+                    [-1.0,-1.0, 1.0],
+                    [ 1.0,-1.0,-1.0],
+                    [ 1.0,-1.0,-1.0],
+                    [ 1.0,-1.0,-1.0],
+                    [-1.0, 1.0,-1.0],
+                    [-1.0, 1.0,-1.0],
+                    [-1.0, 1.0,-1.0]])
+
+    # Normalize each slip system
+    sl_0 = sl_0 / jnp.linalg.norm(sl_0, axis=1)[:, jnp.newaxis]
+    nl_0 = nl_0 / jnp.linalg.norm(nl_0, axis=1)[:, jnp.newaxis]
+
+    return sl_0, nl_0
+
+
+def calculate_schmidt_tensor(initial_angles, sl_0, nl_0):
+    '''
+    Calculate the schmidt tensors for all the slip systems.
+    Takes as input the initial Euler angles, initial slip direction and normal vector.
+    '''
+    rot_euler = R.from_euler('ZXZ', initial_angles, degrees=True)
+    matrix = rot_euler.as_matrix()
+    new_sl0 = sl_0 @ matrix.T
+    new_nl0 = nl_0 @ matrix.T
+    return jnp.einsum('bi,bj->bij', new_sl0, new_nl0)
+
+
+
+# -----------------------------------------------------------------------------------
 # DEFINE MESH AND FUNCTIONSPACE
 # -----------------------------------------------------------------------------------
 length, height = 1, 1
-N = 8
-domain = create_box(
-    MPI.COMM_WORLD,
-    [[0.0, 0.0, 0.0], [length, length, height]],
-    [N, N, N],
-    CellType.hexahedron,
-)
+# N = 8
+# domain = create_box(
+#     MPI.COMM_WORLD,
+#     [[0.0, 0.0, 0.0], [length, length, height]],
+#     [N, N, N],
+#     CellType.hexahedron,
+# )
+
+# Read the mesh
+domain, cell_tags, facet_tags = dolfinx.io.gmshio.read_from_msh("neper_files/n2-id1.msh", MPI.COMM_WORLD)
+
+
+sl_0, nl_0 = slip_systems_fcc()
+orientations = [
+    [0, 0, 0],
+    [45, 0, 0]
+]
+P0_sn_list = jnp.array([calculate_schmidt_tensor(ori,sl_0,nl_0) for ori in orientations])
+
+
 
 dim = domain.topology.dim
 print(f"Mesh topology dimension d={dim}.")
@@ -232,18 +309,9 @@ degree = 1
 shape = (dim,)
 V = fem.functionspace(domain, ("P", degree, shape))
 
+# Create tag function on DG0 space for cell-constant properties
+DG0 = fem.functionspace(domain, ("DG", 0))
 
-out_file = "crystal_plasticity.xdmf"
-with io.XDMFFile(domain.comm, out_file, "w") as xdmf:
-    xdmf.write_mesh(domain)
-
-
-
-##############just for plotting#####################
-# Because mesh is linear and V is quadratric
-# V_epsv = fem.functionspace(domain, ("P", degree, (3,)))
-# epsv_proj = fem.Function(V_epsv, name="Viscous_strain_projected")
-# ####################################################
 
 # -----------------------------------------------------------------------------------
 # DEFINE MATERIAL PROPERTIES
@@ -332,6 +400,29 @@ W0 = fem.functionspace(domain, W0e)      #For constants
 # -----------------------------------------------------------------------------------
 # DEFINE VARIATIONAL FORMULATION
 # -----------------------------------------------------------------------------------
+
+#############################################################################
+# This small part is for assigning the crystal orientations
+orien_function = fem.Function(DG0, name="Orientations")
+orien_function.x.array[:] = create_element_to_tag_map(domain, cell_tags)
+# Create a function on the quadrature space
+orien_tags = fem.Function(W0)
+# Get the dofmap for the quadrature space
+dofmap = W0.dofmap
+# Iterate over cells, assign cell numbers to dofs, and assign tags to quadrature points
+for cell in range(domain.topology.index_map(domain.topology.dim).size_local):
+    dofs = dofmap.cell_dofs(cell)
+    cell_tag = orien_function.x.array[cell]
+    for dof in dofs:
+        orien_tags.x.array[dof] = cell_tag
+# Write xdmf file for visualization on paraview
+out_file = "crystal_plasticity.xdmf"
+with io.XDMFFile(domain.comm, out_file, "w") as xdmf:
+    xdmf.write_mesh(domain)
+    xdmf.write_function(orien_function)
+#############################################################################
+
+
 sig = fem.Function(W, name="Stress")
 Ct = fem.Function(WT, name="Tangent_operator")
 
@@ -355,7 +446,6 @@ resist_temp = fem.Function(W_2)
 resist.interpolate(lambda x: s_0 * np.ones((12, x.shape[1])))
 resist_temp.interpolate(lambda x: s_0 * np.ones((12, x.shape[1])))
 
-print(Fp_old.x.array)
 
 u = fem.Function(V, name="Total_displacement")
 Ddu = fem.Function(V, name="Acumulated_increments")
@@ -815,7 +905,7 @@ def material_tang(F, Fp, Se, del_t, Fp0, P0_sn, resistance, D4, gamma_dot_0, m):
     return dS_dF
 
 
-def material_model_jit(F, Fp_prev, Lp_prev, P0_sn, resistance, del_time):
+def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
     '''
     Function to compute all the quantities related to the material model
     
@@ -823,7 +913,7 @@ def material_model_jit(F, Fp_prev, Lp_prev, P0_sn, resistance, del_time):
     - F: Deformation gradient.
     - Fp_prev: Previous plastic deformation gradient
     - Lp_prev: Plastic velocity gradient (vectorial format)
-    - P0_sn: schmidt tensor (sl_0 x nl_0)
+    - gp_orient: Orientation tag for the corresponding schmidt tensor
     - Resistance: Resistance of all the slip systems
     - del_time: time step
     
@@ -850,6 +940,8 @@ def material_model_jit(F, Fp_prev, Lp_prev, P0_sn, resistance, del_time):
     
     D4 = fourth_order_elasticity(E, nu)
     
+    P0_sn = P0_sn_list[gp_orient.astype(int)-1]
+
     def body_fn(state):
         iteration, converged, _, _, Lp_trial, _ = state
 
@@ -924,17 +1016,20 @@ def material_model_jit(F, Fp_prev, Lp_prev, P0_sn, resistance, del_time):
 # JIT AND VECTORIZATION
 # -----------------------------------------------------------------------------------
 batched_constitutive_update = jax.jit(
-    jax.vmap(material_model_jit, in_axes=(0, 0, 0, None, 0, None))
+    jax.vmap(material_model_jit, in_axes=(0, 0, 0, 0, 0, None))
 )
 
 
 # -----------------------------------------------------------------------------------
 # CONSTITUTIVE UPDATE FUNCTION(JAX-DOLFINX COMUNICATION)
 # -----------------------------------------------------------------------------------
-def constitutive_update(u, sig, Fp_prev, Lp_prev, resist, P0_sn, del_time):
+def constitutive_update(u, sig, Fp_prev, Lp_prev, resist, del_time):
     with Timer("Constitutive update"):
         # Evaluate displacement
         F_val = eval_at_quadrature_points(eps_expr)
+
+        # Gauss Point corresponding orientations
+        gp_orient = orien_tags.x.array
 
         # Reorder state parameters
         Fp_prev_val = Fp_prev.x.array.reshape(ngauss, -1)
@@ -943,7 +1038,7 @@ def constitutive_update(u, sig, Fp_prev, Lp_prev, resist, P0_sn, del_time):
 
         # Call the constitutive law
         S2pk, Fp, Lp_trial, new_resistance, K_mat = batched_constitutive_update(
-            F_val, Fp_prev_val, Lp_prev_val, P0_sn, resist_val, del_time
+            F_val, Fp_prev_val, Lp_prev_val, gp_orient, resist_val, del_time
         )
 
         sig.x.array[:] = S2pk.ravel()
@@ -982,21 +1077,21 @@ results = np.zeros((Nincr, 3))
 del_time = ttime/Nincr
 
 # angles 12, 23 and 13
-initial_angles = [16.0, 14.0, 72.0]
+# initial_angles = [16.0, 14.0, 72.0]
 
 s_0 = mat_prop['yield_resistance']
 
-# Initial s and n vectors
-sl_0, nl_0 = slip_systems_fcc()
+# # Initial s and n vectors
+# sl_0, nl_0 = slip_systems_fcc()
 
-# From Euler angles
-rot_euler = R.from_euler('ZXZ', initial_angles, degrees=True)
-matrix = rot_euler.as_matrix()
+# # From Euler angles
+# rot_euler = R.from_euler('ZXZ', initial_angles, degrees=True)
+# matrix = rot_euler.as_matrix()
 
-new_sl0 = sl_0 @ matrix.T
-new_nl0 = nl_0 @ matrix.T
+# new_sl0 = sl_0 @ matrix.T
+# new_nl0 = nl_0 @ matrix.T
 
-P0_sn = jnp.einsum('bi,bj->bij', new_sl0, new_nl0)
+# P0_sn = jnp.einsum('bi,bj->bij', new_sl0, new_nl0)
 
 # This is temporal, just for storing F values to compare with standalone material model
 deformation_gradients = np.zeros((Nincr, 9))
@@ -1013,7 +1108,7 @@ new_stretch = 0.0
 stretch_max = height/1000 # 0.001
 
 # Run the first time to update sigma Ct and state parameters so the rhs and lhs could be assembled
-F_mean = constitutive_update(u, sig, Fp_old, Lp_old, resist, P0_sn, del_time)
+F_mean = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
 deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
 total_NR_counter = 0
@@ -1047,7 +1142,7 @@ for i in range(1,Nincr):
         u.x.scatter_forward()
 
         # Recalculate sigma Ct and state parameters (THIS IS CONSIDERING Du)
-        F_mean = constitutive_update(u, sig, Fp_old, Lp_old, resist, P0_sn, del_time)
+        F_mean = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
         deformation_gradients[i,:] = F_mean
 
         # Lift RHS considering all the increments of this load-step in the dirichlet bc
