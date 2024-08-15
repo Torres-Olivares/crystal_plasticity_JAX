@@ -21,7 +21,7 @@ def create_element_to_tag_map(domain, cell_tags):
 
 # Create tag function on DG0 space
 DG0 = fem.functionspace(domain, ("DG", 0))
-tag_function = fem.Function(DG0)
+tag_function = fem.Function(DG0, name="Orientations")
 tag_function.x.array[:] = create_element_to_tag_map(domain, cell_tags)
 
 # Define quadrature function space
@@ -47,6 +47,12 @@ for cell in range(domain.topology.index_map(domain.topology.dim).size_local):
 
 print(quad_tags.x.array)
 
+
+# Write results to XDMF
+out_file = "CP_orientations.xdmf"
+with io.XDMFFile(domain.comm, out_file, "w") as xdmf:
+    xdmf.write_mesh(domain)
+    xdmf.write_function(tag_function)
 
 
 

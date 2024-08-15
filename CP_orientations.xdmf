@@ -10,12 +10,12 @@
         <DataItem Dimensions="27 3" Format="HDF">CP_orientations.h5:/Mesh/mesh/geometry</DataItem>
       </Geometry>
     </Grid>
-    <Grid Name="f" GridType="Collection" CollectionType="Temporal">
-      <Grid Name="f" GridType="Uniform">
+    <Grid Name="Orientations" GridType="Collection" CollectionType="Temporal">
+      <Grid Name="Orientations" GridType="Uniform">
         <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
         <Time Value="0" />
-        <Attribute Name="f" AttributeType="Scalar" Center="Cell">
-          <DataItem Dimensions="8 1" Format="HDF">CP_orientations.h5:/Function/f/0</DataItem>
+        <Attribute Name="Orientations" AttributeType="Scalar" Center="Cell">
+          <DataItem Dimensions="8 1" Format="HDF">CP_orientations.h5:/Function/Orientations/0</DataItem>
         </Attribute>
       </Grid>
     </Grid>
