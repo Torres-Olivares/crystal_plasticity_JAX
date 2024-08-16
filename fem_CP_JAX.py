@@ -1084,11 +1084,17 @@ tangent_problem = CustomLinearProblem(
     -Residual,
     u=Du,
     bcs=bcs,
+    # petsc_options={
+    #     "ksp_type": "preonly",
+    #     "pc_type": "lu",
+    #     "pc_factor_mat_solver_type": "mumps",
+    # },
     petsc_options={
-        "ksp_type": "preonly",
-        "pc_type": "lu",
-        "pc_factor_mat_solver_type": "mumps",
-    },
+        "ksp_type": "cg",
+        "pc_type": "ilu",
+        "ksp_rtol": 1e-8,
+        "ksp_max_it": 1000,
+    },  
 )
 
 
