@@ -318,7 +318,7 @@ length, height = 1, 1
 # )
 
 # Read the mesh
-mesh_file = "neper_files/n10-id1_hex.msh"
+mesh_file = "neper_files/n10-id1_tet.msh"
 domain, cell_tags, facet_tags = dolfinx.io.gmshio.read_from_msh(mesh_file, MPI.COMM_WORLD)
 
 
