@@ -14,7 +14,6 @@ from dolfinx.common import Timer
 
 from petsc4py import PETSc
 from dolfinx import fem
-from dolfinx.mesh import create_box, CellType
 import dolfinx.fem.petsc
 
 import jax
@@ -309,16 +308,9 @@ def extract_euler_angles_zxz(file_path):
 # DEFINE MESH AND FUNCTIONSPACE
 # -----------------------------------------------------------------------------------
 length, height = 1, 1
-# N = 8
-# domain = create_box(
-#     MPI.COMM_WORLD,
-#     [[0.0, 0.0, 0.0], [length, length, height]],
-#     [N, N, N],
-#     CellType.hexahedron,
-# )
 
 # Read the mesh
-mesh_file = "neper_files/n10-id1_tet.msh"
+mesh_file = "neper_files/n50-id1.msh"
 domain, cell_tags, facet_tags = dolfinx.io.gmshio.read_from_msh(mesh_file, MPI.COMM_WORLD)
 
 
@@ -1084,11 +1076,6 @@ tangent_problem = CustomLinearProblem(
     -Residual,
     u=Du,
     bcs=bcs,
-    # petsc_options={
-    #     "ksp_type": "preonly",
-    #     "pc_type": "lu",
-    #     "pc_factor_mat_solver_type": "mumps",
-    # },
     petsc_options={
         "ksp_type": "cg",
         "pc_type": "ilu",
@@ -1108,25 +1095,10 @@ ttime = 200
 results = np.zeros((Nincr, 3))
 del_time = ttime/Nincr
 
-# angles 12, 23 and 13
-# initial_angles = [16.0, 14.0, 72.0]
-
 s_0 = mat_prop['yield_resistance']
 
-# # Initial s and n vectors
-# sl_0, nl_0 = slip_systems_fcc()
-
-# # From Euler angles
-# rot_euler = R.from_euler('ZXZ', initial_angles, degrees=True)
-# matrix = rot_euler.as_matrix()
-
-# new_sl0 = sl_0 @ matrix.T
-# new_nl0 = nl_0 @ matrix.T
-
-# P0_sn = jnp.einsum('bi,bj->bij', new_sl0, new_nl0)
-
-# This is temporal, just for storing F values to compare with standalone material model
-deformation_gradients = np.zeros((Nincr, 9))
+# # This is temporal, just for storing F values to compare with standalone material model
+# deformation_gradients = np.zeros((Nincr, 9))
 
 # we set all functions to zero before entering the loop in case we would like to reexecute this code cell
 sig.vector.set(0.0)
@@ -1141,7 +1113,7 @@ stretch_max = height/1000 # 0.001
 
 # Run the first time to update sigma Ct and state parameters so the rhs and lhs could be assembled
 F_mean = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
-deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
+# deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
 total_NR_counter = 0
 for i in range(1,Nincr):
@@ -1175,7 +1147,7 @@ for i in range(1,Nincr):
 
         # Recalculate sigma Ct and state parameters (THIS IS CONSIDERING Du)
         F_mean = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
-        deformation_gradients[i,:] = F_mean
+        # deformation_gradients[i,:] = F_mean
 
         # Lift RHS considering all the increments of this load-step in the dirichlet bc
         tangent_problem.assemble_rhs(Ddu)
@@ -1186,7 +1158,8 @@ for i in range(1,Nincr):
         print("--error: ",nRes / nRes0)
 
         print("new_stretch is: ", new_stretch)
-        print(f"For iteration {niter}, max |u|: {np.max(np.abs(u.x.array))}")
+        max_u = np.max(np.abs(u.x.array))
+        print(f"For iteration {niter}, max |u|: {max_u}")
         niter += 1
 
     # Update the state parameters
@@ -1200,7 +1173,7 @@ for i in range(1,Nincr):
     with io.XDMFFile(domain.comm, out_file, "a") as xdmf:
         xdmf.write_function(u, i+1)
 
-    results[i, 0] = np.max(np.abs(u.x.array))
+    results[i, 0] = max_u
     results[i, 1] = np.mean(sig_values[:, 2])
     results[i, 2] = niter
 
@@ -1229,7 +1202,7 @@ plt.show()
 plt.savefig('plot1_rve.png')
 
 np.savetxt('results.txt', results, delimiter=',')
-np.savetxt('deformation_gradients.txt', deformation_gradients, delimiter=',')
+# np.savetxt('deformation_gradients.txt', deformation_gradients, delimiter=',')
 
 
 # plt.figure()
