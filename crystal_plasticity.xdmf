@@ -453,6 +453,965 @@
           <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/63</DataItem>
         </Attribute>
       </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="64" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/64</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="65" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/65</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="66" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/66</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="67" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/67</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="68" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/68</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="69" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/69</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="70" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/70</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="71" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/71</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="72" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/72</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="73" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/73</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="74" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/74</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="75" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/75</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="76" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/76</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="77" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/77</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="78" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/78</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="79" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/79</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="80" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/80</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="81" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/81</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="82" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/82</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="83" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/83</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="84" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/84</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="85" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/85</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="86" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/86</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="87" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/87</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="88" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/88</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="89" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/89</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="90" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/90</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="91" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/91</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="92" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/92</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="93" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/93</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="94" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/94</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="95" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/95</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="96" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/96</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="97" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/97</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="98" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/98</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="99" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/99</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="100" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/100</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="101" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/101</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="102" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/102</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="103" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/103</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="104" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/104</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="105" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/105</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="106" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/106</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="107" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/107</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="108" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/108</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="109" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/109</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="110" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/110</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="111" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/111</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="112" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/112</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="113" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/113</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="114" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/114</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="115" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/115</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="116" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/116</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="117" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/117</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="118" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/118</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="119" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/119</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="120" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/120</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="121" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/121</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="122" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/122</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="123" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/123</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="124" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/124</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="125" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/125</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="126" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/126</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="127" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/127</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="128" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/128</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="129" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/129</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="130" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/130</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="131" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/131</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="132" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/132</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="133" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/133</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="134" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/134</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="135" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/135</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="136" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/136</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="137" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/137</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="138" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/138</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="139" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/139</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="140" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/140</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="141" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/141</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="142" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/142</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="143" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/143</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="144" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/144</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="145" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/145</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="146" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/146</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="147" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/147</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="148" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/148</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="149" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/149</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="150" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/150</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="151" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/151</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="152" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/152</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="153" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/153</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="154" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/154</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="155" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/155</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="156" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/156</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="157" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/157</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="158" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/158</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="159" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/159</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="160" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/160</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="161" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/161</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="162" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/162</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="163" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/163</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="164" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/164</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="165" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/165</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="166" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/166</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="167" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/167</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="168" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/168</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="169" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/169</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="170" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/170</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="171" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/171</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="172" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/172</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="173" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/173</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="174" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/174</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="175" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/175</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="176" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/176</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="177" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/177</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="178" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/178</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="179" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/179</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="180" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/180</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="181" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/181</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="182" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/182</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="183" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/183</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="184" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/184</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="185" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/185</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="186" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/186</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="187" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/187</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="188" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/188</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="189" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/189</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="190" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/190</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="191" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/191</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="192" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/192</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="193" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/193</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="194" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/194</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="195" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/195</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="196" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/196</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="197" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/197</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="198" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/198</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="199" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/199</DataItem>
+        </Attribute>
+      </Grid>
+      <Grid Name="Total_displacement" GridType="Uniform">
+        <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
+        <Time Value="200" />
+        <Attribute Name="Total_displacement" AttributeType="Vector" Center="Node">
+          <DataItem Dimensions="17576 3" Format="HDF">crystal_plasticity.h5:/Function/Total_displacement/200</DataItem>
+        </Attribute>
+      </Grid>
     </Grid>
   </Domain>
 </Xdmf>

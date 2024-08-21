@@ -1087,7 +1087,7 @@ tangent_problem = CustomLinearProblem(
     u=Du,
     bcs=bcs,
     petsc_options={
-        "ksp_type": "cg",
+        "ksp_type": "gmres", #gmres and cg take the same time
         "pc_type": "ilu",
         "ksp_rtol": 1e-8,
         "ksp_max_it": 1000,
