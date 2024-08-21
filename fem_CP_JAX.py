@@ -104,7 +104,16 @@ def double_contraction_4o_4o(T4_a, T4_b):
     T4_a has tensor with dimensions [i,j,k,l] and T4_b has [k,l,m,n].
     The result is a fourth-order tensor with dimensions [i,j,m,n].
     """
-    result = jnp.einsum('ijkl,klmn->ijmn', T4_a, T4_b)
+    # result = jnp.einsum('ijkl,klmn->ijmn', T4_a, T4_b)
+    # return result
+    # Reshape T4_a to a 2D matrix with shape (i*j, k*l)
+    T4_a_reshaped = T4_a.reshape(-1, T4_a.shape[2] * T4_a.shape[3])
+    # Reshape T4_b to a 2D matrix with shape (k*l, m*n)
+    T4_b_reshaped = T4_b.reshape(T4_b.shape[0] * T4_b.shape[1], -1)
+    # Perform matrix multiplication
+    result_reshaped = jnp.matmul(T4_a_reshaped, T4_b_reshaped)
+    # Reshape the result back to a 4D tensor
+    result = result_reshaped.reshape(T4_a.shape[0], T4_a.shape[1], T4_b.shape[2], T4_b.shape[3])
     return result
 
 
@@ -141,12 +150,13 @@ def simple_contraction_4o_2o(T4, T2):
 # @jax.jit
 def simple_contraction_2o_2o(T2_a, T2_b):
     """
-    Performs the simple inner product between a fourth-order and second-order tensors.
-    T4 is a tensor with dimensions [i,j,k,m] and T2 is a tensor with dimensions [m,l].
-    The result is a fourth-order tensor with dimensions [i,j,k,l].
+    Performs the simple inner product between two second-order tensors.
+    T2_a is a tensor with dimensions [i,k] and T2_b is a tensor with dimensions [k,l].
+    The result is a second-order tensor with dimensions [i,l].
     """
-    result = jnp.einsum('ik,kl->il', T2_a, T2_b)
-    return result
+    # result = jnp.einsum('ik,kl->il', T2_a, T2_b)
+    # return result
+    return jnp.matmul(T2_a, T2_b)
 
 
 def outer_product_2o_2o(T2_a, T2_b):

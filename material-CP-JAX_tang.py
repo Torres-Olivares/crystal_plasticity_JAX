@@ -64,36 +64,47 @@ def mandel_2o_to_vector(X):
                       np.sqrt(2) * X[0, 1]])
 
 
+# def mandel_4o_to_matrix(C):
+#     # Initialize the Mandel 6x6 matrix
+#     C_mandel = jnp.zeros((6, 6))
+
+#     # Map from (i,j) to Mandel indices (I,J)
+#     index_map = {
+#         (0, 0): 0, (1, 1): 1, (2, 2): 2,
+#         (1, 2): 3, (2, 1): 3,
+#         (0, 2): 4, (2, 0): 4,
+#         (0, 1): 5, (1, 0): 5
+#     }
+    
+#     sqrt2 = np.sqrt(2)
+
+#     for i in range(3):
+#         for j in range(3):
+#             for k in range(3):
+#                 for l in range(3):
+#                     I = index_map[(i, j)]
+#                     J = index_map[(k, l)]
+
+#                     # Scaling factor for shear components
+#                     scale = 1.0
+#                     if (i != j): scale *= sqrt2
+#                     if (k != l): scale *= sqrt2
+
+#                     C_mandel = C_mandel.at[I, J].add(C[i, j, k, l] * scale)
+
+#     return C_mandel
 def mandel_4o_to_matrix(C):
     # Initialize the Mandel 6x6 matrix
-    C_mandel = jnp.zeros((6, 6))
-
-    # Map from (i,j) to Mandel indices (I,J)
-    index_map = {
-        (0, 0): 0, (1, 1): 1, (2, 2): 2,
-        (1, 2): 3, (2, 1): 3,
-        (0, 2): 4, (2, 0): 4,
-        (0, 1): 5, (1, 0): 5
-    }
-    
-    sqrt2 = np.sqrt(2)
-
-    for i in range(3):
-        for j in range(3):
-            for k in range(3):
-                for l in range(3):
-                    I = index_map[(i, j)]
-                    J = index_map[(k, l)]
-
-                    # Scaling factor for shear components
-                    scale = 1.0
-                    if (i != j): scale *= sqrt2
-                    if (k != l): scale *= sqrt2
-
-                    C_mandel = C_mandel.at[I, J].add(C[i, j, k, l] * scale)
-
+    sq = jnp.sqrt(2)
+    C_mandel = jnp.array(
+        [[   C[0,0,0,0],    C[0,0,1,1],    C[0,0,2,2], sq*C[0,0,1,2], sq*C[0,0,0,2], sq*C[0,0,0,1]],
+         [   C[1,1,0,0],    C[1,1,1,1],    C[1,1,2,2], sq*C[1,1,1,2], sq*C[1,1,0,2], sq*C[1,1,0,1]],
+         [   C[2,2,0,0],    C[2,2,1,1],    C[2,2,2,2], sq*C[2,2,1,2], sq*C[2,2,0,2], sq*C[2,2,0,1]],
+         [sq*C[1,2,0,0], sq*C[1,2,1,1], sq*C[1,2,2,2],  2*C[1,2,1,2],  2*C[1,2,0,2],  2*C[1,2,0,1]],
+         [sq*C[0,2,0,0], sq*C[0,2,1,1], sq*C[0,2,2,2],  2*C[0,2,1,2],  2*C[0,2,0,2],  2*C[0,2,0,1]],
+         [sq*C[0,1,0,0], sq*C[0,1,1,1], sq*C[0,1,2,2],  2*C[0,1,1,2],  2*C[0,1,0,2],  2*C[0,1,0,1]]]
+        )
     return C_mandel
-
 
 def mandel_matrix_to_4o(X):
     return True
@@ -140,9 +151,17 @@ def double_contraction_4o_4o(T4_a, T4_b):
     T4_a has tensor with dimensions [i,j,k,l] and T4_b has [k,l,m,n].
     The result is a fourth-order tensor with dimensions [i,j,m,n].
     """
-    result = jnp.einsum('ijkl,klmn->ijmn', T4_a, T4_b)
+    # result = jnp.einsum('ijkl,klmn->ijmn', T4_a, T4_b)
+    # return result
+    # Reshape T4_a to a 2D matrix with shape (i*j, k*l)
+    T4_a_reshaped = T4_a.reshape(-1, T4_a.shape[2] * T4_a.shape[3])
+    # Reshape T4_b to a 2D matrix with shape (k*l, m*n)
+    T4_b_reshaped = T4_b.reshape(T4_b.shape[0] * T4_b.shape[1], -1)
+    # Perform matrix multiplication
+    result_reshaped = jnp.matmul(T4_a_reshaped, T4_b_reshaped)
+    # Reshape the result back to a 4D tensor
+    result = result_reshaped.reshape(T4_a.shape[0], T4_a.shape[1], T4_b.shape[2], T4_b.shape[3])
     return result
-
 
 #@jax.jit
 def double_contraction_3o_2o(T3, T2):
@@ -236,7 +255,9 @@ def invert_4o_tensor(array):
     The inverted 3x3x3x3 array.
   """
   reshaped_array = array.reshape(9, 9)
-  inverted_array = jnp.linalg.inv(reshaped_array)
+#   inverted_array = jnp.linalg.inv(reshaped_array)
+  inverted_array = jax.scipy.linalg.solve(reshaped_array,jnp.eye(9))
+  
   return inverted_array.reshape(3, 3, 3, 3)
 
 
@@ -319,14 +340,15 @@ def slip_systems_1slip():
 #@jax.jit
 def plastic_deformation_gradient(Lp,Fp_old,delta_t):
     inverse_part = (jnp.eye(3) - delta_t * Lp)
-    Fp_new = jnp.linalg.solve(inverse_part, Fp_old)
-    return Fp_new
+    # Fp_new = jnp.linalg.solve(inverse_part, Fp_old)
+    # Fp_new = jnp.linalg.inv(inverse_part) @ Fp_old
+    return jax.scipy.linalg.solve(inverse_part,Fp_old)
 
 
 #@jax.jit
 def elastic_deformation_gradient(F,Fp):
-    Fe = F @ jnp.linalg.inv(Fp)
-    return Fe
+    # Fe = F @ jnp.linalg.inv(Fp)
+    return jnp.linalg.solve(Fp.T, F.T).T
 
 
 #@jax.jit
@@ -486,7 +508,8 @@ def derivative_A_wrt_Lp_trial(Fe, S, Ce, delta_t, Fp, F, D4):
     dA_dFe = double_contraction_4o_4o(tensor_product_2o_2o(I2,Ce),dSe_dFe) + double_contraction_4o_4o(tensor_product_2o_2o(S,I2),dCe_dFe)
 
     # Calculando dFe_dLp_trial
-    dFe_dLp_trial = -delta_t * double_contraction_4o_4o(tensor_product_2o_2o(F,I2), tensor_product_2o_2o(jnp.linalg.inv(Fp),I2))
+    # dFe_dLp_trial = -delta_t * double_contraction_4o_4o(tensor_product_2o_2o(F,I2), tensor_product_2o_2o(jnp.linalg.inv(Fp),I2))
+    dFe_dLp_trial = -delta_t * double_contraction_4o_4o(tensor_product_2o_2o(F,I2), tensor_product_2o_2o(jax.scipy.linalg.solve(Fp,I2),I2))
 
     # Perform double inner product
     dA_dLp_trial = double_contraction_4o_4o(dA_dFe, dFe_dLp_trial)
@@ -788,7 +811,7 @@ step_count = 0
 resistance = jnp.ones(len(sl_0))*s_0
 
 
-
+# with jax.profiler.trace("/tmp/jax-trace", create_perfetto_link=True):
 for def_grad in Fs:    
 
     if step_count == 2:
@@ -796,6 +819,8 @@ for def_grad in Fs:
 
     # Calculate the crystal plasticity tensors
     Se, Fp, Lp, resistance, Ktan = material_model_jit(def_grad, Fp, Lp, element_P0_sn, resistance, delta_time)
+
+    # Se.block_until_ready()
 
     # Append results for visualization
     sigma_t.append(Se[2])
@@ -817,6 +842,9 @@ for def_grad in Fs:
 end_time = time.time()
 # Calculate the elapsed time
 elapsed_time = end_time - start_time
+    
+    
+    
 # Print the elapsed time
 print(f"Time spent: {elapsed_time} seconds")
 # --------------------------------------------------------------------------------------

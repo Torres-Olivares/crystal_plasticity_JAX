@@ -153,3 +153,35 @@ schmidt_tensors = jnp.array([calculate_schmidt_tensor(ori) for ori in orientatio
 
 
 print(schmidt_tensors[0])
+
+
+
+# -----------------------------------------------------------------------------------------
+
+# import jax.numpy as jnp
+# from jax.scipy import linalg as spla
+# import jax
+
+# # Set a random seed for reproducibility
+# key = jax.random.PRNGKey(0)
+
+# # Generate random matrices
+# F = jax.random.normal(key, (3, 3))
+# Fp = jax.random.normal(jax.random.split(key)[0], (3, 3))
+
+# # Original method
+# Fe_original = F @ jnp.linalg.inv(Fp)
+
+# # Optimized method
+# Fe_optimized = spla.solve(Fp.T, F.T).T
+
+# # Check if they're close
+# are_close = jnp.allclose(Fe_original, Fe_optimized, rtol=1e-5, atol=1e-8)
+
+# print("Matrices are equivalent:", are_close)
+# print("\nOriginal result:")
+# print(Fe_original)
+# print("\nOptimized result:")
+# print(Fe_optimized)
+# print("\nAbsolute difference:")
+# print(jnp.abs(Fe_original - Fe_optimized))
