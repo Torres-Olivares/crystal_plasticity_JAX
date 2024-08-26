@@ -76,8 +76,30 @@ def as_3x3_tensor(X):
 
 # --------------------------------------------------------------------------------------
 # BASIC TENSOR OPERATIONS
-# double_contraction_4o_2o means double contraction of the 4th order N and 2nd order M (N:M)
+# Double_contraction_4o_2o means double contraction of the 4th order N and 2nd order M (N:M)
+# Identities are created as global constants inmediatly to reduce computation time
 # --------------------------------------------------------------------------------------
+def second_order_identity():
+  """Creates a second-order identity tensor"""
+  return jnp.eye(3)
+I2 = second_order_identity()
+
+
+def fourth_order_identity():
+  """Creates a fourth-order identity tensor (d_ik d_jl  e_i x e_j x e_k x e_l)."""
+  I = jnp.eye(3)
+  return jnp.einsum('ik,jl->ijkl', I, I)
+I4 = fourth_order_identity()
+
+
+def fourth_order_identity_transpose():
+  """Creates a fourth-order identity tensor (d_il d_jk  e_i x e_j x e_k x e_l)."""
+  I = jnp.eye(3)
+  return jnp.einsum('il,jk->ijkl', I, I)
+I4_t = fourth_order_identity_transpose()
+
+
+
 def double_contraction_4o_2o(T4, T2):
     """
     Performs the double inner product between a fourth-order and second-order tensors.
@@ -179,20 +201,6 @@ def tensor_product_2o_2o(T2_a, T2_b):
     return result
 
 
-def fourth_order_identity():
-  """Creates a fourth-order identity tensor (d_ik d_jl  e_i x e_j x e_k x e_l)."""
-  I = jnp.eye(3)
-  I4 = jnp.einsum('ik,jl->ijkl', I, I)
-  return I4
-
-
-def fourth_order_identity_transpose():
-  """Creates a fourth-order identity tensor (d_il d_jk  e_i x e_j x e_k x e_l)."""
-  I = jnp.eye(3)
-  I4 = jnp.einsum('il,jk->ijkl', I, I)
-  return I4
-
-
 def invert_4o_tensor(array):
   """Inverts a 3x3x3x3 array by reshaping to a 9x9 matrix, inverting, and reshaping back.
 
@@ -210,14 +218,14 @@ def invert_4o_tensor(array):
 def fourth_order_elasticity(E, nu):
   """Calculates the 4th order elasticity tensor"""
   
-  I4 = fourth_order_identity()
-  I4_t = fourth_order_identity_transpose()
-  I = jnp.eye(3)
+#   I4 = fourth_order_identity()
+#   I4_t = fourth_order_identity_transpose()
+#   I = jnp.eye(3)
 
   lmbda = E*nu/((1+nu)*(1-2*nu))
   mu = E/(2*(1+nu))
 
-  D4 = lmbda*(outer_product_2o_2o(I,I)) + mu*(I4 + I4_t)
+  D4 = lmbda*(outer_product_2o_2o(I2,I2)) + mu*(I4 + I4_t)
   
   return D4
 
@@ -346,7 +354,8 @@ DG0 = fem.functionspace(domain, ("DG", 0))
 # -----------------------------------------------------------------------------------
 mat_prop = {
     "YoungModulus": 75.76e9,
-    "PoissonRatio": 0.334, 
+    "PoissonRatio": 0.334,
+    "Elastic_tangent": fourth_order_elasticity(75.76e9, 0.334), 
     "slip_rate": 0.001,
     "exponent_m": 20,
     "hardening_slope": 1000000000,
@@ -645,7 +654,7 @@ def slip_systems_1slip():
 
 
 def plastic_deformation_gradient(Lp,Fp_old,delta_t):
-    inverse_part = (jnp.eye(3) - delta_t * Lp)
+    inverse_part = (I2 - delta_t * Lp)
     Fp_new = jnp.linalg.solve(inverse_part, Fp_old)
     return Fp_new
 
@@ -790,13 +799,13 @@ def derivative_A_wrt_Lp_trial(Fe, S, Ce, delta_t, Fp, F, D4):
     - dA_dLp_trial: Derivative of A = (S C) with respect to the trial velocity gradient
     '''
     Fe_T = Fe.T
-    I4 = fourth_order_identity()
-    I4_T = fourth_order_identity_transpose()
-    I2 = jnp.eye(3)
+    # I4 = fourth_order_identity()
+    # I4_T = fourth_order_identity_transpose()
+    # I2 = jnp.eye(3)
 
     # Calculando dCe_dFe sumando los productos tensoriales adecuados
     # dCe_dFe = simple_contraction_4o_2o(I4_T, Fe) + simple_contraction_2o_4o(Fe_T, I4)
-    dCe_dFe = double_contraction_4o_4o(tensor_product_2o_2o(I2,Fe), I4_T) + tensor_product_2o_2o(Fe_T, I2)
+    dCe_dFe = double_contraction_4o_4o(tensor_product_2o_2o(I2,Fe), I4_t) + tensor_product_2o_2o(Fe_T, I2)
 
     # Calculando dS_dFe utilizando la contracción doble
     dSe_dFe = double_contraction_4o_4o(D4, 0.5 * dCe_dFe)
@@ -833,6 +842,7 @@ def derivative_R_wrt_Lp_trial(tau, P0_sn, gamma_dot_0, resistance, m, Fe, S, Ce,
     
     Returns:
     - dR_dLp_trial: Derivative of the residual with respect to the trial velocity gradient
+    - dLp_dA:  Derivative of the velocity gradient with respect to stress, this is re-used on the system tangent stiffness
     """
     dLp_dA = derivative_Lp_wrt_A(tau, P0_sn, gamma_dot_0, resistance, m)
 
@@ -842,7 +852,7 @@ def derivative_R_wrt_Lp_trial(tau, P0_sn, gamma_dot_0, resistance, m, Fe, S, Ce,
 
     dR_dLp_trial = fourth_order_identity() - dLp_dLp_trial
 
-    return dR_dLp_trial
+    return dR_dLp_trial, dLp_dA
 
 
 def compute_U(Cc):
@@ -855,6 +865,33 @@ def compute_U(Cc):
     # Compute U (right stretch tensor)
     U = jnp.einsum('i,ji,ki->jk', principal_strains, eigvecs, eigvecs)
     return U
+
+
+def compute_component(eigvecs, i, j, weight, n):
+    # Compute n_i ⊗ n_j ⊗ n_j ⊗ n_i
+    outer_product = jnp.outer(eigvecs[:, i], eigvecs[:, j])
+    return weight * jnp.outer(outer_product, outer_product).reshape((n, n, n, n))
+
+compute_component_vmap = jax.vmap(jax.vmap(compute_component, in_axes=(None, None, 0, 0, None)), in_axes=(None, 0, None, None, None))
+
+def compute_dU_dC_manual(Cc):
+    # Compute eigenvalues and eigenvectors of C
+    eigvals, eigvecs = eigh(Cc)
+    
+    # Compute principal strains
+    principal_strains = jnp.sqrt(eigvals)
+    
+    n = len(eigvals)
+    
+    # Pre-compute weights matrix
+    # Compute 1 / (λ_i^(1/2) + λ_j^(1/2))
+    weights = 1.0 / (principal_strains[:, None] + principal_strains[None, :])
+    
+    # Use vmap to compute all components at once
+    # Compute n_i ⊗ n_j ⊗ n_j ⊗ n_i
+    tensor = compute_component_vmap(eigvecs, jnp.arange(n), jnp.arange(n), weights, n)
+    
+    return jnp.sum(tensor, axis=(0, 1))
 
 
 # Compute the Jacobian (derivative) of U with respect to C
@@ -874,12 +911,12 @@ def check_and_replace_with_elastic(K_mat,D4):
     return K_mat_valid
 
 
-def material_tang(F, Fp, Se, del_t, Fp0, P0_sn, resistance, D4, gamma_dot_0, m):
+def material_tang(F, Fp, Se, del_t, Fp0, D4, dLp_dA):
  
     # Identity tensors to use
-    I4 = fourth_order_identity()
-    I4_t = fourth_order_identity_transpose()
-    I2 = jnp.eye(3)
+    # I4 = fourth_order_identity()
+    # I4_t = fourth_order_identity_transpose()
+    # I2 = jnp.eye(3)
 
     #SImple tensor calculations
     Fp_inv = jnp.linalg.inv(Fp)
@@ -893,12 +930,13 @@ def material_tang(F, Fp, Se, del_t, Fp0, P0_sn, resistance, D4, gamma_dot_0, m):
     R = F @ jnp.linalg.inv(U)
 
     # Calculate resolved shear stress for all slip systems
-    tau = resolved_shear(P0_sn, Se, Ce)
-    dLp_dA = derivative_Lp_wrt_A(tau, P0_sn, gamma_dot_0, resistance, m)
+    # tau = resolved_shear(P0_sn, Se, Ce)
+    # dLp_dA = derivative_Lp_wrt_A(tau, P0_sn, gamma_dot_0, resistance, m)
 
     dF_dU = simple_contraction_2o_4o(R,I4)#tensor_product_2o_2o(R,I2)
 
-    dU_dC = compute_dU_dC(C)
+    # dU_dC = compute_dU_dC(C)
+    dU_dC = compute_dU_dC_manual(C)
 
     dC_dE = 2 * I4
 
@@ -928,9 +966,9 @@ def material_tang(F, Fp, Se, del_t, Fp0, P0_sn, resistance, D4, gamma_dot_0, m):
     dS_dF = double_contraction_4o_4o(dS_dF_part1,dSe_dF) + double_contraction_4o_4o(dS_dF_part2,dFp_inv_dF) + double_contraction_4o_4o(double_contraction_4o_4o(dS_dF_part3,I4_t),dFp_inv_dF)
 
     dS_dE = double_contraction_4o_4o(dS_dF, dF_dE)
-    K_mat_checked = check_and_replace_with_elastic(dS_dE,D4)
+    # K_mat_checked = check_and_replace_with_elastic(dS_dE,D4)
 
-    return dS_dF
+    return dS_dE
 
 
 def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
@@ -957,8 +995,8 @@ def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
     Lp_prev = as_3x3_tensor(Lp_prev)
 
 
-    E = mat_prop['YoungModulus']
-    nu = mat_prop['PoissonRatio']
+    # E = mat_prop['YoungModulus']
+    # nu = mat_prop['PoissonRatio']
     gamma_dot_0 = mat_prop['slip_rate']
     s_inf = mat_prop['saturation_strenght']
     h_0 = mat_prop['hardening_slope']
@@ -966,12 +1004,12 @@ def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
     a = mat_prop['exponent_a']
     q = mat_prop['q']
     
-    D4 = fourth_order_elasticity(E, nu)
+    D4 = mat_prop["Elastic_tangent"]#fourth_order_elasticity(E, nu)
     
     P0_sn = P0_sn_list[gp_orient.astype(int)-1]
 
     def body_fn(state):
-        iteration, converged, _, _, Lp_trial, _ = state
+        iteration, converged, _, _, Lp_trial, _, _ = state
 
         # Plastic deformation gradient
         Fp = plastic_deformation_gradient(Lp_trial, Fp_prev, del_time)
@@ -983,7 +1021,7 @@ def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
         r_cauchy = Fe.T @ Fe
         
         # Green lagrange strain
-        g_lagrange = 0.5 * (r_cauchy - jnp.eye(3))
+        g_lagrange = 0.5 * (r_cauchy - I2)
         
         # Second Piola-Kirchhoff stress
         Se = double_contraction_4o_2o(D4, g_lagrange)
@@ -1004,27 +1042,27 @@ def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
         converged = jnp.linalg.norm(Residual) < 1e-9
         
         # NR algorithm jacobian and correction of the trial value
-        jacobian_R_L = derivative_R_wrt_Lp_trial(tau, P0_sn, gamma_dot_0, resistance, m, Fe, Se, r_cauchy, del_time, Fp_prev, F, D4)
+        jacobian_R_L, dLp_dA = derivative_R_wrt_Lp_trial(tau, P0_sn, gamma_dot_0, resistance, m, Fe, Se, r_cauchy, del_time, Fp_prev, F, D4)
         correction = double_contraction_4o_2o(invert_4o_tensor(jacobian_R_L), Residual)
         Lp_trial = Lp_trial - correction
         
         iteration = iteration + 1
 
-        return iteration, converged, Se, Fp, Lp_trial, gamma_dot
+        return iteration, converged, Se, Fp, Lp_trial, gamma_dot, dLp_dA
  
     def cond_fn(state):
-        iteration, converged, _, _, _, _ = state
+        iteration, converged, _, _, _, _, _ = state
         return jnp.logical_and(iteration < 1000, jnp.logical_not(converged))
     
     # Initialize the state with dummy values
-    initial_state = (0, False, jnp.zeros((3, 3)), Fp_prev, Lp_prev, jnp.zeros(len(resistance)))
+    initial_state = (0, False, jnp.zeros((3, 3)), Fp_prev, Lp_prev, jnp.zeros(len(resistance)), jnp.zeros((3,3,3,3)))
     
     # Run the while loop
     final_state = jax.lax.while_loop(cond_fn, body_fn, initial_state)
-    iteration, _, Se, Fp, Lp_trial, gamma_dot = final_state
+    iteration, _, Se, Fp, Lp_trial, gamma_dot, tang = final_state
 
     # Calculate the tangent stiffness
-    K_mat = material_tang(F, Fp, Se, del_time, Fp_prev, P0_sn, resistance,D4,gamma_dot_0,m)
+    tang = material_tang(F, Fp, Se, del_time, Fp_prev,D4, tang)
 
     # Calculate the non-elastic 2-PK
     S2pk = jnp.linalg.inv(Fp) @ Se @ jnp.linalg.inv(Fp.T)
@@ -1035,7 +1073,7 @@ def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
     
     # Return stress and tangent stiffness in Mandel format
     stress = mandel_2o_to_vector(S2pk)
-    tangent = mandel_4o_to_matrix(K_mat)
+    tangent = mandel_4o_to_matrix(tang)
 
     return stress, Fp, Lp_trial, new_resistance, tangent
 
@@ -1126,7 +1164,8 @@ F_mean = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
 # deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
 total_NR_counter = 0
-for i in range(1,Nincr):
+# for i in range(1,Nincr):
+for i in range(1,40):
     # Apply the boundary condition for this load step
     new_stretch = stretch_max/Nincr   # 5e-6 steps
 
