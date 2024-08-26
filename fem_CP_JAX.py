@@ -1164,8 +1164,8 @@ F_mean = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
 # deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
 total_NR_counter = 0
-# for i in range(1,Nincr):
-for i in range(1,40):
+for i in range(1,Nincr):
+# for i in range(1,40):
     # Apply the boundary condition for this load step
     new_stretch = stretch_max/Nincr   # 5e-6 steps
 
