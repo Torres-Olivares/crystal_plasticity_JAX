@@ -857,6 +857,33 @@ def compute_U(Cc):
     return U
 
 
+def compute_component(eigvecs, i, j, weight, n):
+    # Compute n_i ⊗ n_j ⊗ n_j ⊗ n_i
+    outer_product = jnp.outer(eigvecs[:, i], eigvecs[:, j])
+    return weight * jnp.outer(outer_product, outer_product).reshape((n, n, n, n))
+
+compute_component_vmap = jax.vmap(jax.vmap(compute_component, in_axes=(None, None, 0, 0, None)), in_axes=(None, 0, None, None, None))
+
+def compute_dU_dC_manual(Cc):
+    # Compute eigenvalues and eigenvectors of C
+    eigvals, eigvecs = eigh(Cc)
+    
+    # Compute principal strains
+    principal_strains = jnp.sqrt(eigvals)
+    
+    n = len(eigvals)
+    
+    # Pre-compute weights matrix
+    # Compute 1 / (λ_i^(1/2) + λ_j^(1/2))
+    weights = 1.0 / (principal_strains[:, None] + principal_strains[None, :])
+    
+    # Use vmap to compute all components at once
+    # Compute n_i ⊗ n_j ⊗ n_j ⊗ n_i
+    tensor = compute_component_vmap(eigvecs, jnp.arange(n), jnp.arange(n), weights, n)
+    
+    return jnp.sum(tensor, axis=(0, 1))
+
+
 # Compute the Jacobian (derivative) of U with respect to C
 compute_dU_dC = jax.jacfwd(compute_U)
 
@@ -898,7 +925,8 @@ def material_tang(F, Fp, Se, del_t, Fp0, P0_sn, resistance, D4, gamma_dot_0, m):
 
     dF_dU = simple_contraction_2o_4o(R,I4)#tensor_product_2o_2o(R,I2)
 
-    dU_dC = compute_dU_dC(C)
+    # dU_dC = compute_dU_dC(C)
+    dU_dC = compute_dU_dC_manual(C)
 
     dC_dE = 2 * I4
 
@@ -928,9 +956,9 @@ def material_tang(F, Fp, Se, del_t, Fp0, P0_sn, resistance, D4, gamma_dot_0, m):
     dS_dF = double_contraction_4o_4o(dS_dF_part1,dSe_dF) + double_contraction_4o_4o(dS_dF_part2,dFp_inv_dF) + double_contraction_4o_4o(double_contraction_4o_4o(dS_dF_part3,I4_t),dFp_inv_dF)
 
     dS_dE = double_contraction_4o_4o(dS_dF, dF_dE)
-    K_mat_checked = check_and_replace_with_elastic(dS_dE,D4)
+    # K_mat_checked = check_and_replace_with_elastic(dS_dE,D4)
 
-    return dS_dF
+    return dS_dE
 
 
 def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
@@ -1126,7 +1154,8 @@ F_mean = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
 # deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
 total_NR_counter = 0
-for i in range(1,Nincr):
+# for i in range(1,Nincr):
+for i in range(1,40):
     # Apply the boundary condition for this load step
     new_stretch = stretch_max/Nincr   # 5e-6 steps
 
