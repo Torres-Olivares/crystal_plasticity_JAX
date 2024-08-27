@@ -21,7 +21,7 @@ import jax.numpy as jnp
 from scipy.spatial.transform import Rotation as R
 from jax.scipy.linalg import eigh
 
-
+from opt_einsum import contract
 import time
 
 jax.config.update("jax_enable_x64", True)  # use double-precision
@@ -288,8 +288,8 @@ def calculate_schmidt_tensor(initial_angles, sl_0, nl_0):
     '''
     rot_euler = R.from_euler('ZXZ', initial_angles, degrees=True)
     matrix = rot_euler.as_matrix()
-    new_sl0 = sl_0 @ matrix.T
-    new_nl0 = nl_0 @ matrix.T
+    new_sl0 = jnp.matmul(sl_0 , matrix.T)
+    new_nl0 = jnp.matmul(nl_0 , matrix.T)
     return jnp.einsum('bi,bj->bij', new_sl0, new_nl0)
 
 
@@ -660,7 +660,8 @@ def plastic_deformation_gradient(Lp,Fp_old,delta_t):
 
 
 def elastic_deformation_gradient(F,Fp):
-    Fe = F @ jnp.linalg.inv(Fp)
+    # Fe = F @ jnp.linalg.inv(Fp)
+    Fe = jnp.matmul(F , jnp.linalg.inv(Fp))
     return Fe
 
 
@@ -733,7 +734,9 @@ def resolved_shear(P0_sn,second_piola,right_cauchy):
     - rShear: Resolved shear stress (n)
     '''
 
-    product_tensor = second_piola @ right_cauchy
+    # product_tensor = second_piola @ right_cauchy
+    product_tensor = jnp.matmul(second_piola , right_cauchy)
+
 
     # Perform the double contraction with the product tensor for each slip system
     rShears = double_contraction_3o_2o(P0_sn, product_tensor)
@@ -798,7 +801,7 @@ def derivative_A_wrt_Lp_trial(Fe, S, Ce, delta_t, Fp, F, D4):
     Out: 
     - dA_dLp_trial: Derivative of A = (S C) with respect to the trial velocity gradient
     '''
-    Fe_T = Fe.T
+    Fe_T = Fe.mT
     # I4 = fourth_order_identity()
     # I4_T = fourth_order_identity_transpose()
     # I2 = jnp.eye(3)
@@ -921,13 +924,19 @@ def material_tang(F, Fp, Se, del_t, Fp0, D4, dLp_dA):
     #SImple tensor calculations
     Fp_inv = jnp.linalg.inv(Fp)
     Fe = elastic_deformation_gradient(F, Fp)
-    Fe_t = Fe.T
-    Ce = Fe_t @ Fe
-    C = F.T @ F
+    Fe_t = Fe.mT
+    # Ce = Fe_t @ Fe
+    Ce = jnp.matmul(Fe_t , Fe)
+    
+    # C = F.mT @ F
+    C = jnp.matmul(F.mT , F)
+
     Fp0_inv = jnp.linalg.inv(Fp0)
 
     U = compute_U(C)
-    R = F @ jnp.linalg.inv(U)
+    # R = F @ jnp.linalg.inv(U)
+    R = jnp.matmul(F , jnp.linalg.inv(U))
+
 
     # Calculate resolved shear stress for all slip systems
     # tau = resolved_shear(P0_sn, Se, Ce)
@@ -961,7 +970,7 @@ def material_tang(F, Fp, Se, del_t, Fp0, D4, dLp_dA):
 
     # dS_dF has 3 sub_parts to make it readable
     dS_dF_part1 = tensor_product_2o_2o(Fp_inv,Fp_inv)
-    dS_dF_part2 = tensor_product_2o_2o(I2, simple_contraction_2o_2o(Se,Fp_inv.T))
+    dS_dF_part2 = tensor_product_2o_2o(I2, simple_contraction_2o_2o(Se,Fp_inv.mT))
     dS_dF_part3 = tensor_product_2o_2o(simple_contraction_2o_2o(Fp_inv,Se),I2)
     dS_dF = double_contraction_4o_4o(dS_dF_part1,dSe_dF) + double_contraction_4o_4o(dS_dF_part2,dFp_inv_dF) + double_contraction_4o_4o(double_contraction_4o_4o(dS_dF_part3,I4_t),dFp_inv_dF)
 
@@ -1018,7 +1027,9 @@ def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
         Fe = elastic_deformation_gradient(F, Fp)
         
         # Right Cauchy-Green strain
-        r_cauchy = Fe.T @ Fe
+        # r_cauchy = Fe.mT @ Fe
+        r_cauchy = jnp.matmul(Fe.mT , Fe)
+
         
         # Green lagrange strain
         g_lagrange = 0.5 * (r_cauchy - I2)
@@ -1065,7 +1076,9 @@ def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
     tang = material_tang(F, Fp, Se, del_time, Fp_prev,D4, tang)
 
     # Calculate the non-elastic 2-PK
-    S2pk = jnp.linalg.inv(Fp) @ Se @ jnp.linalg.inv(Fp.T)
+    # S2pk = jnp.linalg.inv(Fp) @ Se @ jnp.linalg.inv(Fp.mT)
+    S2pk = jnp.matmul(jnp.matmul(jnp.linalg.inv(Fp) , Se) , jnp.linalg.inv(Fp.mT))
+
 
     # Actualize for the new resistance after convergence
     s_dot = slip_resistance_rate(gamma_dot, h_0, resistance, s_inf, a, q)
