@@ -604,8 +604,9 @@ def material_model_jit(F, Fp_prev, Lp_prev, P0_sn, resistance, del_time):
         
         # NR algorithm jacobian and correction of the trial value
         jacobian_R_L = derivative_R_wrt_Lp_trial(tau, P0_sn, gamma_dot_0, resistance, m, Fe, S, r_cauchy, del_time, Fp_prev, F, D4)
-        correction = double_contraction_4o_2o(invert_4o_tensor(jacobian_R_L), Residual)
-        Lp_trial = Lp_trial - correction
+        # correction = double_contraction_4o_2o(invert_4o_tensor(jacobian_R_L), Residual)
+        correction = jax.scipy.linalg.solve(jacobian_R_L.reshape(9, 9) , Residual.reshape(9,1))
+        Lp_trial = Lp_trial - correction.reshape(3,3)
         
         iteration = iteration + 1
 
