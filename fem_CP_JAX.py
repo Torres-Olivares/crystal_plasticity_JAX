@@ -487,10 +487,6 @@ Id = ufl.Identity(3)
 
 F = ufl.variable(Id + ufl.grad(u))
 
-
-
-
-
 def strain_increment(del_u):
     grad_del_u = ufl.grad(del_u)
     D_E = ufl.sym(ufl.dot(ufl.transpose(grad_del_u),F))
@@ -551,7 +547,7 @@ eps_expr = fem.Expression(F, quadrature_points)
 
 
 def eval_at_quadrature_points(expression):
-    return expression.eval(domain, cells).reshape(ngauss, -1)
+    return expression.eval(domain, cells)#.reshape(ngauss, -1)
 
 
 # -----------------------------------------------------------------------------------
@@ -1064,9 +1060,30 @@ def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
 # -----------------------------------------------------------------------------------
 # JIT AND VECTORIZATION
 # -----------------------------------------------------------------------------------
-batched_constitutive_update = jax.jit(
-    jax.vmap(material_model_jit, in_axes=(0, 0, 0, 0, 0, None))
-)
+def ravel_results(S2pk, Fp, Lp_trial, new_resistance, K_mat):
+    return S2pk.ravel(), Fp.ravel(), Lp_trial.ravel(), new_resistance.ravel(), K_mat.ravel()
+
+@jax.jit
+def batched_constitutive_update(F_val, Fp_prev_val, Lp_prev_val, gp_orient, resist_val, del_time):
+    # get the number of Gauss points
+    n_gp = len(Fp_prev_val) // 9
+
+    # Reshape some inputs Gauss-Point-wise before vectorize
+    Fp_prev_val = Fp_prev_val.reshape(n_gp,-1)
+    F_val = F_val.reshape(n_gp,-1)
+    Lp_prev_val = Lp_prev_val.reshape(n_gp,-1)
+    resist_val = resist_val.reshape(n_gp,-1)
+
+    # Apply vmap over Gauss-points to batch-process material_model_jit
+    results = jax.vmap(material_model_jit, in_axes=(0, 0, 0, 0, 0, None))(
+        F_val, Fp_prev_val, Lp_prev_val, gp_orient, resist_val, del_time
+    )
+    
+    # Unpack the results
+    S2pk, Fp, Lp_trial, new_resistance, K_mat = results
+    
+    # Ravel the results
+    return ravel_results(S2pk, Fp, Lp_trial, new_resistance, K_mat)
 
 
 # -----------------------------------------------------------------------------------
@@ -1080,22 +1097,15 @@ def constitutive_update(u, sig, Fp_prev, Lp_prev, resist, del_time):
         # Gauss Point corresponding orientations
         gp_orient = orien_tags.x.array
 
-        # Reorder state parameters
-        Fp_prev_val = Fp_prev.x.array.reshape(ngauss, -1)
-        Lp_prev_val = Lp_prev.x.array.reshape(ngauss, -1)
-        resist_val = resist.x.array.reshape(ngauss, -1)
+        # Reshape state parameters
+        Fp_prev_val = Fp_prev.x.array#.reshape(ngauss, -1)
+        Lp_prev_val = Lp_prev.x.array#.reshape(ngauss, -1)
+        resist_val = resist.x.array#.reshape(ngauss, -1)
 
         # Call the constitutive law
-        S2pk, Fp, Lp_trial, new_resistance, K_mat = batched_constitutive_update(
+        sig.x.array[:], Fp_old_temp.x.array[:], Lp_old_temp.x.array[:], resist_temp.x.array[:], Ct.x.array[:] = batched_constitutive_update(
             F_val, Fp_prev_val, Lp_prev_val, gp_orient, resist_val, del_time
         )
-
-        sig.x.array[:] = S2pk.ravel()
-
-        Ct.x.array[:] = K_mat.ravel()
-        resist_temp.x.array[:] = new_resistance.ravel()
-        Lp_old_temp.x.array[:] = Lp_trial.ravel()
-        Fp_old_temp.x.array[:] = Fp.ravel()
     return True
 
 
