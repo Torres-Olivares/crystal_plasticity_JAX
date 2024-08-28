@@ -1,4 +1,9 @@
 # -----------------------------------------------------------------------------------
+# Code made by Sebastian Torres-Olivares (s.a.torres.olivares@tue.nl)
+# You can use it, but at least say thanks!
+# -----------------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------------
 # IMPORT THE REQUIERED LIBRARIES
 # -----------------------------------------------------------------------------------
 import numpy as np
@@ -128,15 +133,6 @@ def double_contraction_4o_4o(T4_a, T4_b):
     """
     result = jnp.einsum('ijkl,klmn->ijmn', T4_a, T4_b)
     return result
-    # # Reshape T4_a to a 2D matrix with shape (i*j, k*l)
-    # T4_a_reshaped = T4_a.reshape(-1, T4_a.shape[2] * T4_a.shape[3])
-    # # Reshape T4_b to a 2D matrix with shape (k*l, m*n)
-    # T4_b_reshaped = T4_b.reshape(T4_b.shape[0] * T4_b.shape[1], -1)
-    # # Perform matrix multiplication
-    # result_reshaped = jnp.matmul(T4_a_reshaped, T4_b_reshaped)
-    # # Reshape the result back to a 4D tensor
-    # result = result_reshaped.reshape(T4_a.shape[0], T4_a.shape[1], T4_b.shape[2], T4_b.shape[3])
-    # return result
 
 
 def double_contraction_3o_2o(T3, T2):
@@ -217,11 +213,6 @@ def invert_4o_tensor(array):
 
 def fourth_order_elasticity(E, nu):
   """Calculates the 4th order elasticity tensor"""
-  
-#   I4 = fourth_order_identity()
-#   I4_t = fourth_order_identity_transpose()
-#   I = jnp.eye(3)
-
   lmbda = E*nu/((1+nu)*(1-2*nu))
   mu = E/(2*(1+nu))
 
@@ -497,6 +488,9 @@ Id = ufl.Identity(3)
 F = ufl.variable(Id + ufl.grad(u))
 
 
+
+
+
 def strain_increment(del_u):
     grad_del_u = ufl.grad(del_u)
     D_E = ufl.sym(ufl.dot(ufl.transpose(grad_del_u),F))
@@ -535,8 +529,11 @@ dx = ufl.Measure(
     metadata={"quadrature_degree": deg_quad, "quadrature_scheme": "default"},
 )
 
+
+
 Residual = ufl.dot(sig, strain_variation(v)) * dx
 tangent_form = (ufl.dot(ufl.dot(strain_variation(v), Ct), strain_increment(u_)) + ufl.dot(sig, incr_strain_variation(u_, v)))* dx
+
 
 
 # -----------------------------------------------------------------------------------
@@ -660,7 +657,6 @@ def plastic_deformation_gradient(Lp,Fp_old,delta_t):
 
 
 def elastic_deformation_gradient(F,Fp):
-    # Fe = F @ jnp.linalg.inv(Fp)
     Fe = jnp.matmul(F , jnp.linalg.inv(Fp))
     return Fe
 
@@ -734,9 +730,7 @@ def resolved_shear(P0_sn,second_piola,right_cauchy):
     - rShear: Resolved shear stress (n)
     '''
 
-    # product_tensor = second_piola @ right_cauchy
     product_tensor = jnp.matmul(second_piola , right_cauchy)
-
 
     # Perform the double contraction with the product tensor for each slip system
     rShears = double_contraction_3o_2o(P0_sn, product_tensor)
@@ -802,12 +796,8 @@ def derivative_A_wrt_Lp_trial(Fe, S, Ce, delta_t, Fp, F, D4):
     - dA_dLp_trial: Derivative of A = (S C) with respect to the trial velocity gradient
     '''
     Fe_T = Fe.mT
-    # I4 = fourth_order_identity()
-    # I4_T = fourth_order_identity_transpose()
-    # I2 = jnp.eye(3)
 
     # Calculando dCe_dFe sumando los productos tensoriales adecuados
-    # dCe_dFe = simple_contraction_4o_2o(I4_T, Fe) + simple_contraction_2o_4o(Fe_T, I4)
     dCe_dFe = double_contraction_4o_4o(tensor_product_2o_2o(I2,Fe), I4_t) + tensor_product_2o_2o(Fe_T, I2)
 
     # Calculando dS_dFe utilizando la contracción doble
@@ -916,35 +906,21 @@ def check_and_replace_with_elastic(K_mat,D4):
 
 def material_tang(F, Fp, Se, del_t, Fp0, D4, dLp_dA):
  
-    # Identity tensors to use
-    # I4 = fourth_order_identity()
-    # I4_t = fourth_order_identity_transpose()
-    # I2 = jnp.eye(3)
-
     #SImple tensor calculations
     Fp_inv = jnp.linalg.inv(Fp)
     Fe = elastic_deformation_gradient(F, Fp)
     Fe_t = Fe.mT
-    # Ce = Fe_t @ Fe
     Ce = jnp.matmul(Fe_t , Fe)
     
-    # C = F.mT @ F
     C = jnp.matmul(F.mT , F)
 
     Fp0_inv = jnp.linalg.inv(Fp0)
 
     U = compute_U(C)
-    # R = F @ jnp.linalg.inv(U)
     R = jnp.matmul(F , jnp.linalg.inv(U))
-
-
-    # Calculate resolved shear stress for all slip systems
-    # tau = resolved_shear(P0_sn, Se, Ce)
-    # dLp_dA = derivative_Lp_wrt_A(tau, P0_sn, gamma_dot_0, resistance, m)
 
     dF_dU = simple_contraction_2o_4o(R,I4)#tensor_product_2o_2o(R,I2)
 
-    # dU_dC = compute_dU_dC(C)
     dU_dC = compute_dU_dC_manual(C)
 
     dC_dE = 2 * I4
@@ -975,7 +951,6 @@ def material_tang(F, Fp, Se, del_t, Fp0, D4, dLp_dA):
     dS_dF = double_contraction_4o_4o(dS_dF_part1,dSe_dF) + double_contraction_4o_4o(dS_dF_part2,dFp_inv_dF) + double_contraction_4o_4o(double_contraction_4o_4o(dS_dF_part3,I4_t),dFp_inv_dF)
 
     dS_dE = double_contraction_4o_4o(dS_dF, dF_dE)
-    # K_mat_checked = check_and_replace_with_elastic(dS_dE,D4)
 
     return dS_dE
 
@@ -1003,9 +978,6 @@ def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
     Fp_prev = as_3x3_tensor(Fp_prev)
     Lp_prev = as_3x3_tensor(Lp_prev)
 
-
-    # E = mat_prop['YoungModulus']
-    # nu = mat_prop['PoissonRatio']
     gamma_dot_0 = mat_prop['slip_rate']
     s_inf = mat_prop['saturation_strenght']
     h_0 = mat_prop['hardening_slope']
@@ -1027,7 +999,6 @@ def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
         Fe = elastic_deformation_gradient(F, Fp)
         
         # Right Cauchy-Green strain
-        # r_cauchy = Fe.mT @ Fe
         r_cauchy = jnp.matmul(Fe.mT , Fe)
 
         
@@ -1077,9 +1048,7 @@ def material_model_jit(F, Fp_prev, Lp_prev, gp_orient, resistance, del_time):
     tang = material_tang(F, Fp, Se, del_time, Fp_prev,D4, tang)
 
     # Calculate the non-elastic 2-PK
-    # S2pk = jnp.linalg.inv(Fp) @ Se @ jnp.linalg.inv(Fp.mT)
     S2pk = jnp.matmul(jnp.matmul(jnp.linalg.inv(Fp) , Se) , jnp.linalg.inv(Fp.mT))
-
 
     # Actualize for the new resistance after convergence
     s_dot = slip_resistance_rate(gamma_dot, h_0, resistance, s_inf, a, q)
@@ -1127,7 +1096,7 @@ def constitutive_update(u, sig, Fp_prev, Lp_prev, resist, del_time):
         resist_temp.x.array[:] = new_resistance.ravel()
         Lp_old_temp.x.array[:] = Lp_trial.ravel()
         Fp_old_temp.x.array[:] = Fp.ravel()
-    return(np.mean(F_val, axis=0))
+    return True
 
 
 # -----------------------------------------------------------------------------------
@@ -1174,7 +1143,7 @@ new_stretch = 0.0
 stretch_max = height/1000 # 0.001
 
 # Run the first time to update sigma Ct and state parameters so the rhs and lhs could be assembled
-F_mean = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
+check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
 # deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
 total_NR_counter = 0
@@ -1196,6 +1165,7 @@ for i in range(1,40):
 
     niter = 0
     while nRes / nRes0 > tol and niter < Nitermax:
+        print("antes del sistema")
         # solve for the displacement correction
         tangent_problem.assemble_lhs()
         tangent_problem.solve_system() # After this Du has a value for diaplacement
@@ -1207,10 +1177,14 @@ for i in range(1,40):
         # update the displacement with the current correction
         u.vector.axpy(1, Du.vector)  # u = u + 1*Du
         u.x.scatter_forward()
+        print("despues del sistema")
 
         # Recalculate sigma Ct and state parameters (THIS IS CONSIDERING Du)
-        F_mean = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
+        check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
         # deformation_gradients[i,:] = F_mean
+
+        print("despues del constitutive_update")
+
 
         # Lift RHS considering all the increments of this load-step in the dirichlet bc
         tangent_problem.assemble_rhs(Ddu)
