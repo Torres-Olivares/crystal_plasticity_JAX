@@ -577,6 +577,8 @@ class CustomLinearProblem(fem.petsc.LinearProblem):
         x0 = None if u is None else u.vector
         fem.petsc.set_bc(self._b, self.bcs, x0, scale=1.0)
 
+        
+
     def assemble_lhs(self):
         self._A.zeroEntries()
         fem.petsc.assemble_matrix_mat(self._A, self._a, bcs=self.bcs)
@@ -1120,8 +1122,8 @@ tangent_problem = CustomLinearProblem(
     petsc_options={
         "ksp_type": "gmres", #gmres and cg take the same time
         "pc_type": "ilu",
-        "ksp_rtol": 1e-8,
-        "ksp_max_it": 1000,
+        "ksp_rtol": 1e-6,
+        "ksp_max_it": 1000
     },  
 )
 
