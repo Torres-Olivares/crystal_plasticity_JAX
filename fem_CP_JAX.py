@@ -577,12 +577,18 @@ class CustomLinearProblem(fem.petsc.LinearProblem):
         x0 = None if u is None else u.vector
         fem.petsc.set_bc(self._b, self.bcs, x0, scale=1.0)
 
-        
-
     def assemble_lhs(self):
         self._A.zeroEntries()
         fem.petsc.assemble_matrix_mat(self._A, self._a, bcs=self.bcs)
         self._A.assemble()
+
+# NOT IDEA IF THIS WORKS BUT AT LEAST THIS IS HOW YOU SHOULD UPDATE THE PRECONDITIONER
+    def force_pc_update(self):
+        # self._solver is already a KSP object
+        pc = self._solver.getPC()
+        pc.setUpOnBlocks()
+        pc.setUp()
+        self._solver.setUp()
 
     def solve_system(self):
         # Solve linear system and update ghost values in the solution
@@ -1123,7 +1129,10 @@ tangent_problem = CustomLinearProblem(
         "ksp_type": "gmres", #gmres and cg take the same time
         "pc_type": "ilu",
         "ksp_rtol": 1e-6,
-        "ksp_max_it": 1000
+        "ksp_max_it": 1000,
+        # "pc_factor_reuse_ordering": True,
+        # "pc_factor_reuse_fill": True,
+        # "ksp_initial_guess_nonzero": True
     },  
 )
 
@@ -1169,6 +1178,10 @@ for i in range(1,40):
 
     # Reset the acumulated increment for this step
     Ddu.x.array[:] = 0.0
+
+    # Force preconditioner update at the beginning of each load step
+    # if i>1:
+    #     tangent_problem.force_pc_update()
 
     # compute the residual norm at the beginning of the load step
     tangent_problem.assemble_rhs()
