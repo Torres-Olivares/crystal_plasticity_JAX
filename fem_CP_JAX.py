@@ -1173,8 +1173,8 @@ stretch_max = height/1000 # 0.001
 check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
 # deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
-# # Set the preconditioner to be reused
-# tangent_problem.configure_pc()
+# Set the preconditioner to be reused
+tangent_problem.configure_pc()
 
 total_NR_counter = 0
 for i in range(1,Nincr):
@@ -1188,9 +1188,9 @@ for i in range(1,Nincr):
     # Reset the acumulated increment for this step
     Ddu.x.array[:] = 0.0
 
-    # Force preconditioner update at the beginning of each load step
-    if i>1:
-        tangent_problem.force_pc_update()
+    # # Force preconditioner update at the beginning of each load step
+    # if i>1:
+    #     tangent_problem.force_pc_update()
 
     # compute the residual norm at the beginning of the load step
     tangent_problem.assemble_rhs()
