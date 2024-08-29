@@ -554,6 +554,11 @@ def eval_at_quadrature_points(expression):
 # DEFINE SOLVER
 # -----------------------------------------------------------------------------------
 class CustomLinearProblem(fem.petsc.LinearProblem):
+    
+    def configure_pc(self):
+        pc = self._solver.getPC()
+        pc.setReusePreconditioner(True)    
+    
     def assemble_rhs(self, u=None):
         """Assemble right-hand side and lift Dirichlet bcs.
 
@@ -586,6 +591,7 @@ class CustomLinearProblem(fem.petsc.LinearProblem):
     def force_pc_update(self):
         # self._solver is already a KSP object
         pc = self._solver.getPC()
+        pc.setReusePreconditioner(True)
         pc.setUpOnBlocks()
         pc.setUp()
         self._solver.setUp()
@@ -1126,7 +1132,7 @@ tangent_problem = CustomLinearProblem(
     u=Du,
     bcs=bcs,
     petsc_options={
-        "ksp_type": "gmres", #gmres and cg take the same time
+        "ksp_type": "cg", #gmres and cg take the same time
         "pc_type": "ilu",
         "ksp_rtol": 1e-6,
         "ksp_max_it": 1000,
@@ -1167,9 +1173,12 @@ stretch_max = height/1000 # 0.001
 check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
 # deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
+# # Set the preconditioner to be reused
+# tangent_problem.configure_pc()
+
 total_NR_counter = 0
-# for i in range(1,Nincr):
-for i in range(1,40):
+for i in range(1,Nincr):
+# for i in range(1,40):
     # Apply the boundary condition for this load step
     new_stretch = stretch_max/Nincr   # 5e-6 steps
 
@@ -1180,8 +1189,8 @@ for i in range(1,40):
     Ddu.x.array[:] = 0.0
 
     # Force preconditioner update at the beginning of each load step
-    # if i>1:
-    #     tangent_problem.force_pc_update()
+    if i>1:
+        tangent_problem.force_pc_update()
 
     # compute the residual norm at the beginning of the load step
     tangent_problem.assemble_rhs()
