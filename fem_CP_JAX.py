@@ -1125,6 +1125,60 @@ def constitutive_update(u, sig, Fp_prev, Lp_prev, resist, del_time):
     return True
 
 
+import math
+
+
+def chunked_constitutive_update(u, sig, Fp_prev, Lp_prev, resist, del_time, number_of_chunks):
+    with Timer("Chunked Constitutive update"):
+        # Evaluate displacement
+        F_val = eval_at_quadrature_points(eps_expr)
+        
+        # Get arrays from DOLFINx functions (only for input)
+        gp_orient = orien_tags.x.array
+        Fp_prev_val = Fp_prev.x.array
+        Lp_prev_val = Lp_prev.x.array
+        resist_val = resist.x.array
+        print("F_val ", F_val.shape[0])
+        print("gp_orient ", gp_orient.shape)
+
+        
+        # Calculate number of Gauss points and elements
+        n_gp = len(Fp_prev_val) // 9  # Fp and Lp have 9 components
+        n_ele = F_val.shape[0]
+        gp_per_ele = int(n_gp/n_ele)
+
+        # Calculate chunk size (rounded up to ensure all points are covered)
+        chunk_size = math.ceil(n_ele / number_of_chunks)
+        
+        for i in range(number_of_chunks):
+            start_idx = i * chunk_size
+            end_idx = min((i + 1) * chunk_size, n_gp)
+            print("start_idx: ",start_idx, ", end_idx: ",end_idx)
+
+            # Express the start and end indices in Gauss points
+            gp_start = start_idx * gp_per_ele
+            gp_end = end_idx * gp_per_ele
+            
+            # Call the constitutive law on the chunk using slices
+            # sig has 6 components; Fp, Lp have 9 components; Resist 12 components; and F_val is a matrix with elements as rows
+            sig.x.array[gp_start*6:gp_end*6], \
+            Fp_prev.x.array[gp_start*9:gp_end*9], \
+            Lp_prev.x.array[gp_start*9:gp_end*9], \
+            resist.x.array[gp_start*12:gp_end*12], \
+            Ct.x.array[gp_start*36:gp_end*36] = batched_constitutive_update(
+                F_val[start_idx:end_idx, :],
+                Fp_prev_val[gp_start*9:gp_end*9],
+                Lp_prev_val[gp_start*9:gp_end*9],
+                gp_orient[gp_start:gp_end],
+                resist_val[gp_start*12:gp_end*12],
+                del_time
+            )
+            print("CHUNK1 READY!!!")
+    
+    return True
+
+
+
 # -----------------------------------------------------------------------------------
 # DEFINE LINEAR PROBLEM AND SOLVER
 # -----------------------------------------------------------------------------------
@@ -1172,7 +1226,9 @@ new_stretch = 0.0
 stretch_max = height/1000 # 0.001
 
 # Run the first time to update sigma Ct and state parameters so the rhs and lhs could be assembled
-check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
+# check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
+check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,4)
+
 # deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
 # Set the preconditioner to be reused
@@ -1216,7 +1272,8 @@ for i in range(1,Nincr):
         print("despues del sistema")
 
         # Recalculate sigma Ct and state parameters (THIS IS CONSIDERING Du)
-        check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
+        # check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
+        check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,4)
         # deformation_gradients[i,:] = F_mean
 
         print("despues del constitutive_update")
