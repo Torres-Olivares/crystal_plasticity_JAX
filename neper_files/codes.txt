@@ -1,11 +1,11 @@
 # Create a simple tessellation with n grains
-neper -T -n 100 -periodicity all
+neper -T -n 50 -periodicity all
 
 # Create an image of the geometry with transparency
-neper -V n100-id1.tess -datacellcol id -datacelltrs 0.5 -print n100-geometry   
+neper -V n50-id1.tess -datacellcol id -datacelltrs 0.5 -print n50-geometry   
 
 # Generate a hexaedrical mesh, rcl for size or elements and order 1
-neper -M n100-id1.tess -elttype hex -rcl 0.5 -order 1 -o n100_hex
+neper -M n50-id1.tess -elttype hex -rcl 0.278 -order 1 -o n100_hex
 neper -M n100-id1.tess -elttype tet -rcl 0.5 -order 1 -o n100_tet
 
 # Print geometry + mesh

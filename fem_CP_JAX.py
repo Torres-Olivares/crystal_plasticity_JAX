@@ -29,6 +29,8 @@ from jax.scipy.linalg import eigh
 from opt_einsum import contract
 import time
 
+# Global flag to set a specific platform, must be used at startup.
+jax.config.update('jax_platform_name', 'gpu')
 jax.config.update("jax_enable_x64", True)  # use double-precision
 
 # Record the start time
