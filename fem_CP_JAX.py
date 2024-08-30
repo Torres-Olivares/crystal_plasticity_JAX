@@ -1139,9 +1139,7 @@ def chunked_constitutive_update(u, sig, Fp_prev, Lp_prev, resist, del_time, numb
         Lp_prev_val = Lp_prev.x.array
         resist_val = resist.x.array
         print("F_val ", F_val.shape[0])
-        print("gp_orient ", gp_orient.shape)
 
-        
         # Calculate number of Gauss points and elements
         n_gp = len(Fp_prev_val) // 9  # Fp and Lp have 9 components
         n_ele = F_val.shape[0]
@@ -1173,8 +1171,7 @@ def chunked_constitutive_update(u, sig, Fp_prev, Lp_prev, resist, del_time, numb
                 resist_val[gp_start*12:gp_end*12],
                 del_time
             )
-            print("CHUNK1 READY!!!")
-    
+            
     return True
 
 
@@ -1227,7 +1224,7 @@ stretch_max = height/1000 # 0.001
 
 # Run the first time to update sigma Ct and state parameters so the rhs and lhs could be assembled
 # check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
-check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,4)
+check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,2)
 
 # deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
@@ -1273,7 +1270,7 @@ for i in range(1,Nincr):
 
         # Recalculate sigma Ct and state parameters (THIS IS CONSIDERING Du)
         # check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
-        check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,4)
+        check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,2)
         # deformation_gradients[i,:] = F_mean
 
         print("despues del constitutive_update")
