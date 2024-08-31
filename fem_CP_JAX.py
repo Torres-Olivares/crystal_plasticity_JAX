@@ -321,7 +321,7 @@ def extract_euler_angles_zxz(file_path):
 length, height = 1, 1
 
 # Read the mesh
-mesh_file = "neper_files/n50-id1.msh"
+mesh_file = "neper_files/n100_hex.msh"
 domain, cell_tags, facet_tags = dolfinx.io.gmshio.read_from_msh(mesh_file, MPI.COMM_WORLD)
 
 
