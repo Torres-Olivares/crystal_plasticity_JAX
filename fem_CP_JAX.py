@@ -1160,9 +1160,9 @@ def chunked_constitutive_update(u, sig, Fp_prev, Lp_prev, resist, del_time, numb
             # Call the constitutive law on the chunk using slices
             # sig has 6 components; Fp, Lp have 9 components; Resist 12 components; and F_val is a matrix with elements as rows
             sig.x.array[gp_start*6:gp_end*6], \
-            Fp_prev.x.array[gp_start*9:gp_end*9], \
-            Lp_prev.x.array[gp_start*9:gp_end*9], \
-            resist.x.array[gp_start*12:gp_end*12], \
+            Fp_old_temp.x.array[gp_start*9:gp_end*9], \
+            Lp_old_temp.x.array[gp_start*9:gp_end*9], \
+            resist_temp.x.array[gp_start*12:gp_end*12], \
             Ct.x.array[gp_start*36:gp_end*36] = batched_constitutive_update(
                 F_val[start_idx:end_idx, :],
                 Fp_prev_val[gp_start*9:gp_end*9],
@@ -1171,6 +1171,10 @@ def chunked_constitutive_update(u, sig, Fp_prev, Lp_prev, resist, del_time, numb
                 resist_val[gp_start*12:gp_end*12],
                 del_time
             )
+        # # Call the constitutive law
+        # sig.x.array[:], Fp_old_temp.x.array[:], Lp_old_temp.x.array[:], resist_temp.x.array[:], Ct.x.array[:] = batched_constitutive_update(
+        #     F_val, Fp_prev_val, Lp_prev_val, gp_orient, resist_val, del_time
+        # )
             
     return True
 
@@ -1224,7 +1228,7 @@ stretch_max = height/1000 # 0.001
 
 # Run the first time to update sigma Ct and state parameters so the rhs and lhs could be assembled
 # check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
-check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,2)
+check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,3)
 
 # deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
@@ -1232,8 +1236,8 @@ check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,2)
 tangent_problem.configure_pc()
 
 total_NR_counter = 0
-for i in range(1,Nincr):
-# for i in range(1,40):
+# for i in range(1,Nincr):
+for i in range(1,40):
     # Apply the boundary condition for this load step
     new_stretch = stretch_max/Nincr   # 5e-6 steps
 
@@ -1270,7 +1274,7 @@ for i in range(1,Nincr):
 
         # Recalculate sigma Ct and state parameters (THIS IS CONSIDERING Du)
         # check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
-        check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,2)
+        check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,3)
         # deformation_gradients[i,:] = F_mean
 
         print("despues del constitutive_update")
