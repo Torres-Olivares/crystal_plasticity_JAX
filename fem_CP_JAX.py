@@ -1207,6 +1207,7 @@ tangent_problem = CustomLinearProblem(
 Nitermax, tol = 200, 1e-6  # parameters of the Newton-Raphson procedure
 Nincr = 200
 ttime = 200
+num_chunks = 3 # Chunks of data to send Gauss-points from cpu to gpu (limited by memory size)
 results = np.zeros((Nincr, 3))
 del_time = ttime/Nincr
 
@@ -1227,8 +1228,7 @@ new_stretch = 0.0
 stretch_max = height/1000 # 0.001
 
 # Run the first time to update sigma Ct and state parameters so the rhs and lhs could be assembled
-# check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
-check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,3)
+check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,num_chunks)
 
 # deformation_gradients[0,:] = np.array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
 
@@ -1273,8 +1273,7 @@ for i in range(1,40):
         print("despues del sistema")
 
         # Recalculate sigma Ct and state parameters (THIS IS CONSIDERING Du)
-        # check = constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time)
-        check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,3)
+        check = chunked_constitutive_update(u, sig, Fp_old, Lp_old, resist, del_time,num_chunks)
         # deformation_gradients[i,:] = F_mean
 
         print("despues del constitutive_update")
